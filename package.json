@@ -6,12 +6,16 @@
   "scripts": {
     "start": "node index.js"
   },
-  "keywords": ["mineflayer", "minecraft", "bot"],
+  "keywords": [
+    "mineflayer",
+    "minecraft",
+    "bot"
+  ],
   "author": "you",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
     "discord.js": "^14.24.2",
+    "express": "^4.21.2",
     "minecraft-data": "^3.100.0",
     "minecraft-protocol": "github:PrismarineJS/node-minecraft-protocol",
     "mineflayer": "github:PrismarineJS/mineflayer"

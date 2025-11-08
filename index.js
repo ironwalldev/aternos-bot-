@@ -1,51 +1,45 @@
-// === KEEP ALIVE WEB SERVER ===
+const mineflayer = require('mineflayer');
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => res.send('✅ Aternos Bot is running and alive!'));
-app.listen(port, () => console.log(`🌐 Keep-alive server running on port ${port}`));
+// === Keepalive server for Railway ===
+const PORT = process.env.PORT || 3000;
+app.get('/', (req, res) => res.send('✅ Aternos bot is running.'));
+app.listen(PORT, () => console.log(`🌐 Express server online on port ${PORT}`));
 
-// === MINECRAFT BOT ===
-const mineflayer = require('mineflayer');
-
-// === CONFIG ===
+// === Mineflayer Bot Config ===
 const bot = mineflayer.createBot({
   host: 'NoModsFree.aternos.me', // your server IP
   port: 51271,                   // your port
   username: 'NoModsFree',        // bot username
-  version: '1.21.1'              // force Minecraft version
+  version: '1.21.1'              // Minecraft version
 });
 
-// === EVENTS ===
-
-// When the bot logs in
+// === Events ===
 bot.on('login', () => {
   console.log(`✅ Logged in as ${bot.username}`);
   bot.chat('✅ Bot is online and ready!');
 });
 
-// Log errors and reconnect
 bot.on('error', err => console.log('❌ Error:', err));
 bot.on('end', () => {
-  console.log('⚠️ Disconnected. Reconnecting in 10s...');
+  console.log('⚠️ Disconnected. Restarting in 10s...');
   setTimeout(() => process.exit(1), 10000);
 });
 
-// When someone sends a private message to the bot
+// === Whisper Command ===
 bot.on('whisper', (username, message) => {
   console.log(`📩 Private message from ${username}: ${message}`);
-
   if (message.startsWith('!say ')) {
     const toSay = message.substring(5);
     bot.chat(toSay);
-    bot.whisper(username, `✅ Sent to public: ${toSay}`);
+    bot.whisper(username, `✅ Sent: ${toSay}`);
   } else {
-    bot.whisper(username, '💬 Use !say <message> to send a public chat message.');
+    bot.whisper(username, '💬 Use !say <message> to talk in chat.');
   }
 });
 
-// Keep the bot active
+// === Keep Alive in Chat ===
 bot.once('spawn', () => {
   setInterval(() => {
     bot.chat('🟢 Still alive!');
